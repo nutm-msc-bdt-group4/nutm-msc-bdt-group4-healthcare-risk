@@ -40,7 +40,7 @@ BIG DATA TECHNOLOGY
 
 We use Conventional Commits (type: description) to keep our audit trail clean for our lecturer's supervision:
 
-• feat: A new feature or script (e.g., feat: add heart-rate visualization)
+• feature: A new feature or script (e.g., feature: add heart-rate visualization)
 
 • fix: A bug fix (e.g., fix: resolve null values in admissions table)
 
