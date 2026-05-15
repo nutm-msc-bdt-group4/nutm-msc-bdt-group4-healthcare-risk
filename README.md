@@ -1,12 +1,16 @@
+# \*\*Team Members:\*\* Philip Oricha (252325008) | Precious Faseyosan (252325005)  Alpha G. Grey (252325003) | Laoye Gbekeoluwa (252325015)
+
+
+
 # nutm-msc-bdt-group4-healthcare-risk
 
 End-to-end distributed Big Data pipeline for ICU readmission risk stratification. Built with HDFS and Apache Spark (MLlib + NLP) using the MIMIC-III dataset to deliver actionable healthcare insights.
 
-BIG DATA
+BIG DATA TECHNOLOGY
 
 
 
-🛠 Team Workflow \& Standards
+🛠 Team Workflow &\ Standards
 
 
 
@@ -34,7 +38,7 @@ BIG DATA
 
 3\. Professional Commit Messages
 
-We use Conventional Commits (type: description) to keep our audit trail clean for lecturers:
+We use Conventional Commits (type: description) to keep our audit trail clean for our lecturer's supervision:
 
 • feat: A new feature or script (e.g., feat: add heart-rate visualization)
 
