@@ -15,7 +15,7 @@ patients and deliver actionable healthcare insights.
 | Name | Student ID | GitHub | Responsibility |
 |------|------------|--------|----------------|
 | Precious Faseyosan | 252325005 | @PreciousFaseyosan | Data Ingestion & Joining |
-| Alpha G. Grey | 252325003 | @alphagbessaygray-max | Data Cleaning & Feature Engineering |
+| Alpha G. Gray | 252325003 | @alphagbessaygray-max | Data Cleaning & Feature Engineering |
 | Laoye Gbekeoluwa | 252325015 | @gbekelaoye | TF-IDF, Clustering & Silhouette Analysis |
 | Philip Oricha | 252325008 | @adeizaofficial | Final Model, Dashboard & Visualisation |
 
