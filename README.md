@@ -132,9 +132,3 @@ Common area labels: `Ingestion`, `Processing`, `Modelling`, `Results`, `Docs`, `
 - Only commit scripts assigned to you
 - Never edit another member's scripts
 - Every member must have meaningful commits in the Git history
-
----
-
-## Key Results
-
-(to be updated...)
