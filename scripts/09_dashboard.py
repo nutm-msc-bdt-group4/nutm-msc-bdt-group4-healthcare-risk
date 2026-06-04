@@ -149,7 +149,7 @@ for bar, val in zip(bars, profile_pd["mortality_pct"]):
     )
 ax2.tick_params(axis="x", labelsize=9)
 
-# ── CHART 3: AVERAGE AGE ──────────────────────────────────
+# CHART 3: AVERAGE AGE
 ax3 = fig.add_subplot(gs[0, 2])
 bars = ax3.bar(
     labels,
@@ -178,7 +178,7 @@ for bar, val in zip(bars, profile_pd["avg_age"]):
     )
 ax3.tick_params(axis="x", labelsize=9)
 
-# ── CHART 4: HEART RATE ───────────────────────────────────
+# CHART 4: HEART RATE
 ax4 = fig.add_subplot(gs[1, 0])
 bars = ax4.bar(
     labels,
@@ -217,7 +217,7 @@ for bar, val in zip(bars, profile_pd["avg_heart_rate"]):
     )
 ax4.tick_params(axis="x", labelsize=9)
 
-# ── CHART 5: SYSTOLIC BLOOD PRESSURE ─────────────────────
+# CHART 5: SYSTOLIC BLOOD PRESSURE
 ax5 = fig.add_subplot(gs[1, 1])
 bars = ax5.bar(
     labels,
@@ -356,6 +356,3 @@ print(f"Dashboard saved to: {output_path}")
 print()
 print("=" * 60)
 print("DASHBOARD COMPLETE")
-print("To view on your Mac, run this in your Mac terminal:")
-print("scp hadoop@192.168.56.20:/home/hadoop/project/outputs/risk_dashboard.png ~/Desktop/")
-print("=" * 60)
