@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 
-# ── START SPARK ───────────────────────────────────────────
+# START SPARK
 spark = SparkSession.builder \
     .appName("NUTM_Group4_Features") \
     .getOrCreate()
@@ -13,7 +13,7 @@ print("=" * 60)
 print("STEP 4: FEATURE ENGINEERING")
 print("=" * 60)
 
-# ── LOAD DATA FROM HDFS ───────────────────────────────────
+# LOAD DATA FROM HDFS
 # Read the master table with vitals we saved in the last step
 df = spark.read.parquet(
     "hdfs://localhost:9000/healthcare/processed/master_with_vitals/"
@@ -22,7 +22,7 @@ df = spark.read.parquet(
 print("Data loaded. Row count:", df.count())
 print()
 
-# ── ENCODE GENDER ─────────────────────────────────────────
+# ENCODE GENDER
 # Gender is currently stored as text: 'M' or 'F'
 # Machine learning algorithms need numbers, not text.
 # We convert: F = 0, M = 1
@@ -36,7 +36,7 @@ df = df.withColumn(
 print("Gender encoding:")
 df.groupBy("gender", "gender_encoded").count().show()
 
-# ── DEFINE FEATURE COLUMNS ────────────────────────────────
+# DEFINE FEATURE COLUMNS
 # These are the columns we will use as input to the model.
 # We deliberately exclude hadm_id, subject_id etc. because
 # those are identifier columns, not clinical measurements.
@@ -59,7 +59,7 @@ for col in feature_columns:
     print(" -", col)
 print()
 
-# ── DROP ANY REMAINING NULLS ──────────────────────────────
+# DROP ANY REMAINING NULLS
 # StandardScaler cannot handle NULL values.
 # We drop any rows that still have NULLs in our feature columns.
 # This should be very few or zero given our earlier cleaning.
@@ -73,7 +73,7 @@ print(f"Rows after dropping nulls:  {after_count}")
 print(f"Rows removed: {before_count - after_count}")
 print()
 
-# ── STEP 1: VECTOR ASSEMBLER ──────────────────────────────
+# STEP 1: VECTOR ASSEMBLER
 # Combines all feature columns into one vector column
 # called 'raw_features'
 
@@ -88,7 +88,7 @@ print("After VectorAssembler:")
 df_assembled.select("subject_id", "raw_features").show(5, truncate=False)
 print()
 
-# ── STEP 2: STANDARD SCALER ───────────────────────────────
+# STEP 2: STANDARD SCALER
 # withMean=True: subtracts the mean of each feature
 # withStd=True: divides by the standard deviation
 # Result: each feature has mean=0 and std=1
