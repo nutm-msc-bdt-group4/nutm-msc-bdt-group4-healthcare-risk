@@ -1,8 +1,8 @@
 {
   "best_k": 2,
   "silhouette_score": 0.2449,
-  "high_risk_cluster": 0,
-  "low_risk_cluster": 1,
+  "high_risk_cluster": 1,
+  "low_risk_cluster": 2,
   "high_risk_mortality": 50.0,
   "low_risk_mortality": 8.6
 }
