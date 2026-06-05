@@ -14,7 +14,7 @@ print("=" * 60)
 print("STEP 6: BISECTING K-MEANS CLUSTERING")
 print("=" * 60)
 
-# ── LOAD SCALED FEATURES FROM HDFS ───────────────────────
+# ── LOAD SCALED FEATURES FROM HDFS 
 # We load the scaled dataset we created in Step 4.
 # The 'scaled_features' column is what the model will use.
 
@@ -37,7 +37,7 @@ print("Patients with real vital sign data:", df.count())
 print("(Patients with median-filled vitals excluded from clustering)")
 print()
 
-# ── TRAIN BISECTING K-MEANS WITH K=4 ─────────────────────
+# ── TRAIN BISECTING K-MEANS WITH K=4 
 # We start with K=4 as our initial attempt.
 # The next script (silhouette analysis) will tell us
 # whether 4 is actually the best number of clusters.
@@ -73,14 +73,14 @@ predictions_df = bkm_model.transform(df)
 print("Clustering complete!")
 print()
 
-# ── HOW MANY PATIENTS IN EACH CLUSTER? ───────────────────
+# ── HOW MANY PATIENTS IN EACH CLUSTER?
 print("Patient count per cluster:")
 predictions_df.groupBy("cluster") \
     .count() \
     .orderBy("cluster") \
     .show()
 
-# ── CALCULATE SILHOUETTE SCORE ────────────────────────────
+# ── CALCULATE SILHOUETTE SCORE 
 # The Silhouette score measures how well separated
 # the clusters are. Range is -1 to 1.
 # Closer to 1.0 = patients within a cluster are very
@@ -99,7 +99,7 @@ score = evaluator.evaluate(predictions_df)
 print(f"Silhouette Score for K=4: {score:.4f}")
 print()
 
-# ── EXAMINE THE CLUSTER CENTRES ───────────────────────────
+# ── EXAMINE THE CLUSTER CENTRES 
 # The cluster centre is the 'average patient' in each group
 # It tells us what the typical patient in each cluster
 # looks like in the scaled feature space
@@ -119,7 +119,7 @@ for i, center in enumerate(centers):
 
 print()
 
-# ── PROFILE EACH CLUSTER WITH REAL VALUES ────────────────
+# ── PROFILE EACH CLUSTER WITH REAL VALUES 
 # The cluster centres are in scaled space (hard to interpret)
 # Let's look at the ORIGINAL unscaled values instead
 # This tells us what each cluster actually looks like
@@ -143,7 +143,7 @@ cluster_profile = predictions_df.groupBy("cluster").agg(
 
 cluster_profile.show(truncate=False)
 
-# ── IDENTIFY THE HIGH RISK CLUSTER ───────────────────────
+# ── IDENTIFY THE HIGH RISK CLUSTER 
 # The high risk cluster is the one with the highest
 # mortality percentage — these are the patients most
 # likely to die during their hospital admission
@@ -151,7 +151,7 @@ cluster_profile.show(truncate=False)
 print("Clusters ranked by mortality rate (highest first):")
 cluster_profile.orderBy("mortality_pct", ascending=False).show()
 
-# ── SAVE EVERYTHING TO HDFS ──────────────────────────────
+# ── SAVE EVERYTHING TO HDFS 
 # Save the predictions dataframe — patients with cluster labels
 predictions_df.write \
     .mode("overwrite") \
