@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.mllib.clustering.BisectingKMeansModel","version":"3.0","rootId":-1,"distanceMeasure":"euclidean","trainingCost":680.2188081432323}

@@ -38,7 +38,7 @@ print(f"Silhouette score:  {silhouette}")
 print()
 
 # Prepare Data 
-# Sort so cluster 0 always comes first
+# Sort so cluster 1 always comes first
 
 profile_pd = profile_pd.sort_values("cluster").reset_index(drop=True)
 
@@ -46,9 +46,9 @@ profile_pd = profile_pd.sort_values("cluster").reset_index(drop=True)
 
 def get_label(cluster_num):
     if cluster_num == high_risk:
-        return "Cluster 0\nHIGH RISK"
+        return "Cluster 1\nHIGH RISK"
     else:
-        return "Cluster 1\nLOW RISK"
+        return "Cluster 2\nLOW RISK"
 
 profile_pd["label"] = profile_pd["cluster"].apply(get_label)
 
