@@ -3,7 +3,7 @@ from pyspark.sql import functions as F
 from pyspark.ml.clustering import BisectingKMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
 
-# ── START SPARK ───────────────────────────────────────────
+# START SPARK 
 spark = SparkSession.builder \
     .appName("NUTM_Group4_Clustering") \
     .getOrCreate()
