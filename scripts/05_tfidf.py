@@ -33,7 +33,7 @@ print()
 notes_df.printSchema()
 notes_df.show(5)
 
-# ── HANDLE THE EMPTY NOTES SCENARIO ──────────────────────
+# ── HANDLE THE EMPTY NOTES SCENARIO 
 # As we discovered during exploration, the demo dataset
 # has 0 clinical notes. We handle this gracefully by
 # detecting it and explaining what the pipeline WOULD do
@@ -83,7 +83,7 @@ else:
 
     print("Discharge summaries:", working_df.count())
 
-# ── BUILD THE TF-IDF PIPELINE ─────────────────────────────
+# ── BUILD THE TF-IDF PIPELINE 
 # A Pipeline chains multiple processing steps together.
 # Each step's output becomes the next step's input.
 # This is the Spark ML Pipeline the rubric requires.
@@ -127,7 +127,7 @@ idf = IDF(
     minDocFreq=1
 )
 
-# ── ASSEMBLE THE PIPELINE ─────────────────────────────────
+# ── ASSEMBLE THE PIPELINE
 # Chain all 4 stages into one Pipeline object
 # This is what satisfies the 'Spark MLlib Pipeline' requirement
 text_pipeline = Pipeline(stages=[
@@ -144,7 +144,7 @@ print("  Stage 3: HashingTF (5000 features)")
 print("  Stage 4: IDF")
 print()
 
-# ── FIT AND TRANSFORM ─────────────────────────────────────
+# ── FIT AND TRANSFORM 
 # fit() — pipeline learns vocabulary statistics from the text
 # transform() — pipeline converts text to TF-IDF vectors
 
@@ -173,7 +173,7 @@ df_tfidf.select(
 print("Sample — words before and after stop word removal:")
 df_tfidf.select("words", "filtered_words").show(3, truncate=60)
 
-# ── SAVE THE PIPELINE MODEL ───────────────────────────────
+# ── SAVE THE PIPELINE MODEL 
 # Save the fitted pipeline so we can reuse it
 # without having to retrain it every time
 pipeline_model.write().overwrite().save(
