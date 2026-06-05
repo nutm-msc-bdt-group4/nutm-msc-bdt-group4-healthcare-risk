@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-# ── START SPARK ───────────────────────────────────────────
+# START SPARK
 spark = SparkSession.builder \
     .appName("NUTM_Group4_Vitals") \
     .getOrCreate()
@@ -12,7 +12,7 @@ print("=" * 60)
 print("STEP 3: PROCESSING VITAL SIGNS")
 print("=" * 60)
 
-# ── LOAD DATA FROM HDFS ───────────────────────────────────
+# LOAD DATA FROM HDFS
 # Read raw CHARTEVENTS from HDFS
 chartevents_df = spark.read \
     .option("header", "true") \
@@ -161,7 +161,7 @@ vitals_clean = vitals_wide \
     .fillna({"respiratory_rate": medians["rr_median"]}) \
     .fillna({"spo2": medians["spo2_median"]})
 
-# ── STEP 7: JOIN VITALS INTO MASTER TABLE ────────────────
+# STEP 7: JOIN VITALS INTO MASTER TABLE
 # Now we bring the clean vitals into our master patient table
 # We join on hadm_id — the hospital admission ID
 
@@ -197,7 +197,7 @@ master_with_vitals.select(
 print("Final row count:", master_with_vitals.count())
 print()
 
-# ── SAVE TO HDFS ──────────────────────────────────────────
+# SAVE TO HDFS
 # Save with partitioning by first_careunit
 # This satisfies the partitioning requirement in the rubric.
 #
