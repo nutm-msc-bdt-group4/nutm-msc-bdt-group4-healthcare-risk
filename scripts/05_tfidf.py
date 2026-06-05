@@ -8,7 +8,7 @@ from pyspark.ml.feature import (
     IDF
 )
 
-# ── START SPARK ───────────────────────────────────────────
+# starts sparks session.
 spark = SparkSession.builder \
     .appName("NUTM_Group4_TFIDF") \
     .getOrCreate()
@@ -19,7 +19,7 @@ print("=" * 60)
 print("STEP 5: TF-IDF PIPELINE ON CLINICAL NOTES")
 print("=" * 60)
 
-# ── LOAD CLINICAL NOTES FROM HDFS ────────────────────────
+#Loads the clinical notes CSV from HDFS.
 notes_df = spark.read \
     .option("header", "true") \
     .option("inferSchema", "true") \
@@ -29,7 +29,7 @@ print("Notes loaded from HDFS.")
 print("Total rows:", notes_df.count())
 print()
 
-# ── CHECK WHAT WE HAVE ────────────────────────────────────
+# Shows the column names and detected types.
 notes_df.printSchema()
 notes_df.show(5)
 
