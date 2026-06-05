@@ -4,7 +4,7 @@ from pyspark.ml.clustering import BisectingKMeans
 from pyspark.ml.evaluation import ClusteringEvaluator  # type: ignore[import]
 import json
 
-# ── START SPARK ───────────────────────────────────────────
+# ── START SPARK ─
 spark = SparkSession.builder \
     .appName("NUTM_Group4_Silhouette") \
     .getOrCreate()
@@ -16,7 +16,7 @@ print("STEP 7: SILHOUETTE ANALYSIS")
 print("Finding the optimal number of clusters (K)")
 print("=" * 60)
 
-# ── LOAD DATA ─────────────────────────────────────────────
+# ── LOAD DATA 
 df = spark.read.parquet(
     "hdfs://localhost:9000/healthcare/processed/df_scaled/"
 )
@@ -29,7 +29,7 @@ df = df.filter(df.heart_rate != MEDIAN_HR)
 print(f"Patients available for analysis: {df.count()}")
 print()
 
-# ── SET UP THE EVALUATOR ──────────────────────────────────
+# ── SET UP THE EVALUATOR 
 # We reuse the same evaluator for every value of K
 evaluator = ClusteringEvaluator(
     featuresCol="scaled_features",
@@ -37,7 +37,7 @@ evaluator = ClusteringEvaluator(
     metricName="silhouette"
 )
 
-# ── TEST K FROM 2 TO 8 ────────────────────────────────────
+# ── TEST K FROM 2 TO 8 
 # We test a range of K values.
 # K=2 is the minimum (you need at least 2 clusters to compare)
 # K=8 is a reasonable maximum for 69 patients
@@ -86,14 +86,14 @@ for k in k_values:
 print("-" * 40)
 print()
 
-# ── FIND THE BEST K ───────────────────────────────────────
+# ── FIND THE BEST K 
 if results:
     best = max(results, key=lambda x: x["silhouette"])
     print(f"BEST K = {best['k']}")
     print(f"Silhouette Score = {best['silhouette']}")
     print()
 
-    # ── DISPLAY FULL RESULTS TABLE ────────────────────────
+    # ── DISPLAY FULL RESULTS TABLE 
     print("Full results summary:")
     print(f"{'K':>4} | {'Actual Clusters':>15} | {'Silhouette Score':>16}")
     print("-" * 42)
@@ -103,7 +103,7 @@ if results:
               f"{r['silhouette']:>16.4f}{marker}")
     print()
 
-    # ── SAVE RESULTS ──────────────────────────────────────
+    # ── SAVE RESULTS
     # Save as JSON so the dashboard script can read it
     output = {
         "results": results,
