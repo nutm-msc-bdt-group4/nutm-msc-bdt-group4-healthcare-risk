@@ -1,9 +1,5 @@
 from pyspark.sql import SparkSession
 
-# ── START SPARK ───────────────────────────────────────────
-# SparkSession is the entry point to everything in Spark.
-# Think of it as starting the engine before driving.
-# appName is just a label that appears in Spark's logs.
 spark = SparkSession.builder \
     .appName("NUTM_Group4_Explore") \
     .getOrCreate()
@@ -15,12 +11,7 @@ print("=" * 60)
 print("Spark started successfully. Version:", spark.version)
 print("=" * 60)
 
-# ── READ CSV FILES FROM HDFS ──────────────────────────────
-# Notice the path starts with hdfs://localhost:9000
-# This tells Spark to read from HDFS, not the local disk.
-# header=true means the first row contains column names
-# inferSchema=true means Spark automatically detects data types
-
+# Read CSV files from HDFS; inferSchema detects column types automatically
 patients_df = spark.read \
     .option("header", "true") \
     .option("inferSchema", "true") \
@@ -48,11 +39,6 @@ notes_df = spark.read \
 
 print("All 5 files loaded from HDFS successfully!")
 print()
-
-# ── EXPLORE EACH DATASET ──────────────────────────────────
-# printSchema() shows column names and their data types
-# show(5) displays the first 5 rows like a table
-# count() counts total number of rows
 
 print("=" * 60)
 print("PATIENTS")
@@ -98,5 +84,4 @@ print("=" * 60)
 print("EXPLORATION COMPLETE")
 print("=" * 60)
 
-# Always stop Spark cleanly at the end of every script
 spark.stop()
