@@ -4,7 +4,6 @@ from pyspark.ml.clustering import BisectingKMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
 import json
 
-# Start Spark
 spark = SparkSession.builder \
     .appName("NUTM_Group4_FinalModel") \
     .getOrCreate()
@@ -15,21 +14,17 @@ print("=" * 60)
 print("STEP 8: FINAL MODEL — BISECTING K-MEANS K=2")
 print("=" * 60)
 
-# Load Data
-
 df = spark.read.parquet(
     "hdfs://localhost:9000/healthcare/processed/df_scaled/"
 )
 
-# Apply same filter as before
-
+# Same filter as scripts 06 and 07 - exclude median-filled patients
 MEDIAN_HR = 85.76153846153846
 df = df.filter(df.heart_rate != MEDIAN_HR)
 
 print(f"Patients for clustering: {df.count()}")
 print()
 
-#Train Final Model With Best K=2
 print("Training final Bisecting K-Means model with K=2...")
 
 final_bkm = BisectingKMeans(
@@ -47,8 +42,6 @@ final_predictions = final_model.transform(df)
 print("Training complete!")
 print()
 
-# Confirm Silhouette Score
-
 evaluator = ClusteringEvaluator(
     featuresCol="scaled_features",
     predictionCol="cluster",
@@ -59,17 +52,11 @@ final_score = evaluator.evaluate(final_predictions)
 print(f"Final Silhouette Score (K=2): {final_score:.4f}")
 print()
 
-# Patient Count Per Cluster
 print("Patient distribution:")
 final_predictions.groupBy("cluster") \
     .count() \
     .orderBy("cluster") \
     .show()
-
-# Deep Cluster Profiles
-# Now we profile each cluster using original unscaled values
-# This tells us what each group actually looks like
-# in real clinical terms
 
 print("=" * 60)
 print("DEEP CLUSTER PROFILES")
@@ -84,7 +71,6 @@ profile = final_predictions.groupBy("cluster").agg(
     F.round(F.max("age"), 1).alias("max_age"),
 
     # ICU stay
-
     F.round(F.avg("los"), 2).alias("avg_los_days"),
     F.round(F.max("los"), 2).alias("max_los_days"),
 
@@ -110,9 +96,6 @@ profile = final_predictions.groupBy("cluster").agg(
 print("Full cluster comparison:")
 profile.show(truncate=False)
 
-# Identify and Label Clusters
-# Collect results to identify which cluster is high risk
-
 profile_data = profile.collect()
 
 for row in profile_data:
@@ -127,7 +110,6 @@ for row in profile_data:
     print(f"  Mortality Rate:    {row['mortality_pct']}%")
     print(f"  % Male:            {row['pct_male']}%")
 
-# Identify high risk cluster
 high_risk = max(profile_data, key=lambda x: x["mortality_pct"])
 low_risk = min(profile_data, key=lambda x: x["mortality_pct"])
 
@@ -144,7 +126,6 @@ print(f"  Average ICU stay: {low_risk['avg_los_days']} days")
 print(f"  Average heart rate: {low_risk['avg_heart_rate']} bpm")
 print("=" * 60)
 
-# Care Unit Breakdown Per Cluster
 print()
 print("ICU care unit distribution per cluster:")
 final_predictions.groupBy("cluster", "first_careunit") \
@@ -152,7 +133,6 @@ final_predictions.groupBy("cluster", "first_careunit") \
     .orderBy("cluster", "count", ascending=[True, False]) \
     .show()
 
-# Diagnosis Breakdown Per Cluster
 print("Top 5 diagnoses in HIGH RISK cluster:")
 final_predictions.filter(
     F.col("cluster") == int(high_risk["cluster"])
@@ -169,27 +149,20 @@ final_predictions.filter(
     .orderBy("count", ascending=False) \
     .show(5, truncate=False)
 
-# Save Everything
-# Save final model
 final_model.write().overwrite().save(
     "hdfs://localhost:9000/healthcare/models/bkm_final_k2"
 )
 
-# Save predictions
 final_predictions.write \
     .mode("overwrite") \
     .parquet(
         "hdfs://localhost:9000/healthcare/processed/final_predictions/"
     )
 
-# Save profile as CSV for dashboard
-
 profile.coalesce(1).write \
     .mode("overwrite") \
     .option("header", "true") \
     .csv("/home/hadoop/project/outputs/final_cluster_profiles/")
-
-# Save summary as JSON for dashboard
 
 summary = {
     "best_k": 2,

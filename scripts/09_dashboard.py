@@ -1,8 +1,7 @@
 import pandas as pd
 import matplotlib
 
-# Use non-interactive backend — required when running via SSH without a display screen connected
-
+# Use non-interactive backend - required when running via SSH without a display
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -15,15 +14,10 @@ print("=" * 60)
 print("STEP 9: BUILDING THE RISK PROFILE DASHBOARD")
 print("=" * 60)
 
-# Load Cluster Profiles
-# Find the CSV file saved by the final model script
-
+# Load cluster profiles and model summary
 profile_pd = pd.read_csv(
     "/home/hadoop/project/outputs/cluster_profiles.csv"
 )
-
-
-# Load the model summary JSON
 
 with open("/home/hadoop/project/outputs/model_summary.json") as f:
     summary = json.load(f)
@@ -37,12 +31,7 @@ print(f"Low risk cluster:  {low_risk}")
 print(f"Silhouette score:  {silhouette}")
 print()
 
-# Prepare Data 
-# Sort so cluster 1 always comes first
-
 profile_pd = profile_pd.sort_values("cluster").reset_index(drop=True)
-
-# Assign meaningful labels to each cluster
 
 def get_label(cluster_num):
     if cluster_num == high_risk:
@@ -52,13 +41,12 @@ def get_label(cluster_num):
 
 profile_pd["label"] = profile_pd["cluster"].apply(get_label)
 
-# Define colors — red for high risk, green for low risk
-
+# Red for high risk, green for low risk
 def get_color(cluster_num):
     if cluster_num == high_risk:
-        return "#E74C3C"   # red
+        return "#E74C3C"
     else:
-        return "#2ECC71"   # green
+        return "#2ECC71"
 
 profile_pd["color"] = profile_pd["cluster"].apply(get_color)
 colors = profile_pd["color"].tolist()
@@ -68,16 +56,12 @@ print("Labels assigned:")
 print(profile_pd[["cluster", "label", "mortality_pct"]])
 print()
 
-# Build the dashboard
-# Set overall style
 sns.set_style("whitegrid")
 plt.rcParams["font.family"] = "DejaVu Sans"
 
-# Create figure with 3 rows and 3 columns of subplots
 fig = plt.figure(figsize=(20, 16))
 fig.patch.set_facecolor("white")
 
-# Main title
 fig.suptitle(
     "Patient Risk Stratification Dashboard\n"
     "Nigeria University of Technology and Management — Group 4\n"
@@ -90,8 +74,7 @@ fig.suptitle(
     linespacing=1.6
 )
 
-# Grid layout — 3 rows, 3 columns
-# Last row spans all 3 columns for the heatmap
+# 3x3 grid; bottom row spans all columns for the heatmap
 gs = gridspec.GridSpec(
     3, 3,
     figure=fig,
@@ -99,7 +82,7 @@ gs = gridspec.GridSpec(
     wspace=0.38
 )
 
-# Chart 1: Pie Chart-Patient Distribution
+# Chart 1: patient distribution pie chart
 ax1 = fig.add_subplot(gs[0, 0])
 wedges, texts, autotexts = ax1.pie(
     profile_pd["patient_count"],
@@ -119,7 +102,7 @@ ax1.set_title(
     pad=10
 )
 
-#Chart 2: Mortality Rate
+# Chart 2: in-hospital mortality rate
 ax2 = fig.add_subplot(gs[0, 1])
 bars = ax2.bar(
     labels,
@@ -136,7 +119,6 @@ ax2.set_title(
 )
 ax2.set_ylabel("Mortality Rate (%)", fontsize=10)
 ax2.set_ylim(0, 65)
-# Add value labels on top of each bar
 for bar, val in zip(bars, profile_pd["mortality_pct"]):
     ax2.text(
         bar.get_x() + bar.get_width() / 2,
@@ -149,7 +131,7 @@ for bar, val in zip(bars, profile_pd["mortality_pct"]):
     )
 ax2.tick_params(axis="x", labelsize=9)
 
-# CHART 3: AVERAGE AGE
+# Chart 3: average age
 ax3 = fig.add_subplot(gs[0, 2])
 bars = ax3.bar(
     labels,
@@ -178,7 +160,7 @@ for bar, val in zip(bars, profile_pd["avg_age"]):
     )
 ax3.tick_params(axis="x", labelsize=9)
 
-# CHART 4: HEART RATE
+# Chart 4: average heart rate with tachycardia reference line
 ax4 = fig.add_subplot(gs[1, 0])
 bars = ax4.bar(
     labels,
@@ -188,7 +170,6 @@ bars = ax4.bar(
     linewidth=2,
     width=0.5
 )
-# Add clinical reference line
 ax4.axhline(
     y=100,
     color="orange",
@@ -217,7 +198,7 @@ for bar, val in zip(bars, profile_pd["avg_heart_rate"]):
     )
 ax4.tick_params(axis="x", labelsize=9)
 
-# CHART 5: SYSTOLIC BLOOD PRESSURE
+# Chart 5: average systolic BP with hypertension and hypotension reference lines
 ax5 = fig.add_subplot(gs[1, 1])
 bars = ax5.bar(
     labels,
@@ -227,7 +208,6 @@ bars = ax5.bar(
     linewidth=2,
     width=0.5
 )
-# Clinical reference lines
 ax5.axhline(
     y=140,
     color="orange",
@@ -264,8 +244,7 @@ for bar, val in zip(bars, profile_pd["avg_systolic_bp"]):
     )
 ax5.tick_params(axis="x", labelsize=9)
 
-# Chart 6: ICU Length of stay
-
+# Chart 6: average ICU length of stay
 ax6 = fig.add_subplot(gs[1, 2])
 bars = ax6.bar(
     labels,
@@ -294,10 +273,9 @@ for bar, val in zip(bars, profile_pd["avg_los_days"]):
     )
 ax6.tick_params(axis="x", labelsize=9)
 
-# Chart 7: Heatmap — spans full bottom row
+# Chart 7: heatmap spanning full bottom row
 ax7 = fig.add_subplot(gs[2, :])
 
-# Build heatmap data
 heatmap_data = profile_pd.set_index("label")[[
     "avg_age",
     "avg_los_days",
@@ -342,7 +320,6 @@ ax7.set_title(
 ax7.tick_params(axis="y", rotation=0, labelsize=10)
 ax7.tick_params(axis="x", labelsize=10)
 
-# Save the dashboard
 output_path = "/home/hadoop/project/outputs/risk_dashboard.png"
 plt.savefig(
     output_path,
@@ -356,3 +333,4 @@ print(f"Dashboard saved to: {output_path}")
 print()
 print("=" * 60)
 print("DASHBOARD COMPLETE")
+print("=" * 60)
