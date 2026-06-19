@@ -71,9 +71,20 @@ streamlit run app.py
 
 ---
 
-## 👤 Primary Contributor
+## 👤 Contributors
 
 **Precious Faseyosan**  
-Graduate Petroleum Engineer | MSc Data Science Candidate  
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/precious-faseyosan)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/PreciousFaseyosan)
+
+**Philip Oricha**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/philip-oricha-861824189)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/adeizaofficial)
+
+**Gbekeloluwa Laoye**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/laoye-gbekeloluwa-216b95150)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/laoyegbekeloluwa)
+
+**Alpha G. Gray**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/alpha-g-gray-8474a562)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/alphagbessaygray-max)
