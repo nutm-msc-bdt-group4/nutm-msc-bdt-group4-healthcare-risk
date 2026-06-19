@@ -1,134 +1,79 @@
+# 🏥 ICU Risk Cluster: Healthcare Risk Stratification Pipeline
 
-# Healthcare Risk Stratification — Group 4
-## Nigeria University of Technology and Management (NUTM)
-### Big Data Technologies (NUTDTS 805) | MSc Data Science | 2025/2026
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://icuriskcluster.streamlit.app)
+[![PySpark](https://img.shields.io/badge/PySpark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white)](https://spark.apache.org)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 
-End-to-end distributed Big Data pipeline for ICU patient risk 
-stratification. Built with HDFS and Apache Spark (MLlib + NLP) 
-using the MIMIC-III dataset to automatically identify high-risk 
-patients and deliver actionable healthcare insights.
+> Big Data ML pipeline for patient risk stratification — built with PySpark, Hadoop/HDFS, and deployed as a Streamlit web application.
 
 ---
 
-## Team Members
+## 🔍 Project Overview
 
-| Name | Student ID | GitHub | Responsibility |
-|------|------------|--------|----------------|
-| Precious Faseyosan | 252325005 | @PreciousFaseyosan | Data Ingestion & Joining |
-| Alpha G. Gray | 252325003 | @alphagbessaygray-max | Data Cleaning & Feature Engineering |
-| Laoye Gbekeoluwa | 252325015 | @gbekelaoye | TF-IDF, Clustering & Silhouette Analysis |
-| Philip Oricha | 252325008 | @adeizaofficial | Final Model, Dashboard & Visualisation |
+A group project completed as part of the Big Data Technologies course — MSc Data Science, Nigerian University of Technology and Management (NUTM), 2024/2025.
 
-**Lecturer:** Dr. Isah Charles Saidu  
+The pipeline ingests patient health data, processes it at scale using Apache Spark on HDFS, applies unsupervised clustering to stratify patients by risk profile, and surfaces results through an interactive Streamlit dashboard.
+
+**Team:** NUTM MSc Data Science — Group 4  
+**Project Lead & Primary Contributor:** Precious Faseyosan
 
 ---
 
-## Tech Stack
-
-- Apache Hadoop 3.4.2 (HDFS + YARN)
-- Apache Spark 3.5.0 (MLlib + PySpark)
-- Python 3.12.3
-- Java OpenJDK 11
-- Dataset: MIMIC-III Clinical Database Demo
-
----
-
-## Repository Structure
+## ⚙️ Pipeline Architecture
 
 ```
-scripts/
-├── 01_explore.py           # Data exploration and schema inspection
-├── 02_joining.py           # Multi-table joins and master table creation
-├── 03_vitals.py            # Vital signs extraction and cleaning
-├── 04_features.py          # Feature engineering and StandardScaler
-├── 05_tfidf.py             # TF-IDF NLP pipeline for clinical notes
-├── 06_clustering.py        # Bisecting K-Means initial clustering
-├── 07_silhouette.py        # Silhouette analysis for optimal K
-├── 08_final_model.py       # Final model training and cluster profiling
-└── 09_dashboard.py         # Risk stratification dashboard
-
-data/
-├── PATIENTS.csv            # Patient demographics (100 patients)
-├── ADMISSIONS.csv          # Hospital admission records (129 rows)
-├── ICUSTAYS.csv            # ICU stay details (136 rows)
-├── CHARTEVENTS.csv         # Vital sign measurements (758,355 rows)
-└── NOTEEVENTS.csv          # Clinical notes (empty in demo dataset)
-
-outputs/
-├── risk_dashboard.png      # Six-panel clinical visualisation
-├── cluster_profiles.csv    # Cluster summary statistics
-├── silhouette_results.json
-└── model_summary.json
+Raw Data (HDFS)
+    ↓
+PySpark Data Cleaning & Feature Engineering
+    ↓
+ML Clustering Model (risk stratification)
+    ↓
+Streamlit Dashboard (interactive results)
 ```
 
 ---
 
-## How to Run
+## 🛠️ Tech Stack
 
-### Prerequisites
-Start Hadoop services on the project VM:
+| Layer | Tools |
+|-------|-------|
+| Distributed Computing | Apache Spark (PySpark), Hadoop HDFS |
+| Machine Learning | PySpark MLlib |
+| Visualisation & App | Streamlit, Plotly |
+| Language | Python 3.9+ |
+
+---
+
+## 🚀 Running the App
+
+Live at: **[https://icuriskcluster.streamlit.app](https://icuriskcluster.streamlit.app)**
+
+To run locally:
 ```bash
-start-dfs.sh && start-yarn.sh
-jps  # Verify 5 services are running
-```
-
-### Run the pipeline in order
-```bash
-spark-submit scripts/01_explore.py
-spark-submit scripts/02_joining.py
-spark-submit scripts/03_vitals.py
-spark-submit scripts/04_features.py
-spark-submit scripts/05_tfidf.py
-spark-submit scripts/06_clustering.py
-spark-submit scripts/07_silhouette.py
-spark-submit scripts/08_final_model.py
-python3 scripts/09_dashboard.py
+git clone https://github.com/nutm-msc-bdt-group4/nutm-msc-bdt-group4-healthcare-risk.git
+cd nutm-msc-bdt-group4-healthcare-risk
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
 ---
 
-## Team Workflow
+## ⚠️ Limitations & Future Work
 
-### Branching Strategy
-- **main** — Stable, submission-ready code only. Never push here directly.
-- **develop** — Primary integration branch. All work is pushed here first.
+**Current limitations:**
+- Model trained on a demo dataset; results on clinical data require validation against medical ground truth.
+- Clustering is unsupervised — risk labels are data-driven, not clinically certified.
 
-### Step-by-Step Contribution Guide
-```bash
-# 1. Always start by pulling the latest develop
-git checkout develop
-git pull origin develop
+**Future improvements:**
+- Incorporate supervised classification with labelled clinical outcomes
+- Scale pipeline to real-time patient data ingestion
+- Add explainability layer (SHAP) for clinical interpretability
 
-# 2. Do your work in the scripts/ folder
+---
 
-# 3. Check what you are about to commit
-git status
+## 👤 Primary Contributor
 
-# 4. Stage and commit
-git add .
-git commit -m "YourName - Area - What you did"
-# Examples:
-# "Precious - Ingestion - Add HDFS data loading script"
-# "Philip - Modelling - Add Bisecting K-Means clustering"
-
-# 5. Push to develop
-git push origin develop
-
-# 6. Open a Pull Request on GitHub: develop → main
-#    At least one teammate must review before merging
-```
-
-### Commit Message Format
-
-| Format | Example |
-|--------|---------|
-| `Name - Area - Description` | `Precious - Ingestion - Add HDFS loading and joining scripts` |
-
-Common area labels: `Ingestion`, `Processing`, `Modelling`, `Results`, `Docs`, `Fix`
-
-### Rules
-- Never push directly to `main`
-- Always pull `develop` before starting work
-- Only commit scripts assigned to you
-- Never edit another member's scripts
-- Every member must have meaningful commits in the Git history
+**Precious Faseyosan**  
+Graduate Petroleum Engineer | MSc Data Science Candidate  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/precious-faseyosan)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/PreciousFaseyosan)
