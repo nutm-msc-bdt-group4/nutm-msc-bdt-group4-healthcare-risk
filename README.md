@@ -169,7 +169,7 @@ The Streamlit dashboard is deployed at:
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/PreciousFaseyosan)
 
 **Philip Oricha**
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/philip-oricha-861824189)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/philiporicha)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/adeizaofficial)
 
 **Gbekeloluwa Laoye**
